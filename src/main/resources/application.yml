@@ -1,0 +1,42 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        invoiceInput:
+          destination: invoice-topic
+          group: invoice-group
+        orderInput:
+          destination: order-topic
+          group: order-group
+
+        invoiceOutput:
+          destination: invoice-topic
+        orderOutput:
+          destination: order-topic
+      kafka:
+        binder:
+          brokers: kafka:9092
+      default-binder: kafka
+# Profile for RabbitMQ (activated when using the 'rabbitmq' profile)
+---
+spring:
+  profiles:
+    active: rabbitmq
+  cloud:
+    stream:
+      bindings:
+        customerInput:
+          destination: customer-queue
+        orderInput:
+          destination: order-queue
+        invoiceOutput:
+          destination: invoice-queue
+        paymentOutput:
+          destination: payment-queue
+
+      rabbit:
+        binder:
+          hosts:  rabbitmq
+          port: 5672
+          username: guest
+          password: guest
