@@ -13,30 +13,37 @@ spring:
           destination: invoice-topic
         orderOutput:
           destination: order-topic
+spring.cloud.stream.kafka.binder:
+  brokers: 127.0.0.1
+  defaultBrokerPort: 9092
+
+spring.rabbitmq:
+  host: 127.0.0.1
+  port: 5672
+  username: guest
+  password: guest
+
+# Profile for kafka (activated when using the 'kafka' profile)
+---
+spring:
+  config:
+    activate:
+      on-profile: kafka
+  cloud:
+    stream:
+      default-binder: kafka
       kafka:
         binder:
           brokers: kafka:9092
-      default-binder: kafka
 # Profile for RabbitMQ (activated when using the 'rabbitmq' profile)
 ---
 spring:
-  profiles:
-    active: rabbitmq
+  config:
+    activate:
+      on-profile: rabbitmq
   cloud:
     stream:
-      bindings:
-        customerInput:
-          destination: customer-queue
-        orderInput:
-          destination: order-queue
-        invoiceOutput:
-          destination: invoice-queue
-        paymentOutput:
-          destination: payment-queue
+      default-binder: rabbit
+  rabbitmq:
+    host: rabbitmq
 
-      rabbit:
-        binder:
-          hosts:  rabbitmq
-          port: 5672
-          username: guest
-          password: guest
