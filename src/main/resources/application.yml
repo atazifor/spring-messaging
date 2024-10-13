@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: test
   cloud:
     stream:
       bindings:
@@ -13,12 +15,14 @@ spring:
           destination: invoice-topic
         orderOutput:
           destination: order-topic
+      default-binder: rabbit
+
 spring.cloud.stream.kafka.binder:
-  brokers: 127.0.0.1
+  brokers: kafka
   defaultBrokerPort: 9092
 
 spring.rabbitmq:
-  host: 127.0.0.1
+  host: rabbitmq
   port: 5672
   username: guest
   password: guest

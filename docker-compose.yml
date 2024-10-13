@@ -52,7 +52,7 @@ services:
       rabbitmq:
         condition: service_healthy
     environment:
-      SPRING_PROFILES_ACTIVE: rabbitmq # Use 'rabbitmq' to switch to RabbitMQ
+      SPRING_PROFILES_ACTIVE: "" # Use 'rabbitmq' to switch to RabbitMQ
       #SPRING_APPLICATION_JSON: '{"logging.level.org.springframework": "DEBUG"}'
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
