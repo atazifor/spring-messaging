@@ -4,18 +4,38 @@ spring:
   cloud:
     stream:
       bindings:
+        invoiceInput-invoiceGroup.errors:
+          destination: error-topic
         invoiceInput:
           destination: invoice-topic
           group: invoice-group
+          consumer:
+            max-attempts: 3
+            back-off-initial-interval: 1000
+            back-off-max-interval: 10000
+            back-off-multiplier: 2.0
         orderInput:
           destination: order-topic
           group: order-group
 
         invoiceOutput:
           destination: invoice-topic
+
         orderOutput:
           destination: order-topic
       default-binder: rabbit
+      rabbit:
+        bindings:
+          invoiceInput:
+            consumer:
+              autoBindDlq: true
+              republishToDlq: true
+      kafka:
+        bindings:
+          invoiceInput:
+            consumer:
+              enableDlq: true
+
 
 spring.cloud.stream.kafka.binder:
   brokers: kafka
@@ -26,6 +46,7 @@ spring.rabbitmq:
   port: 5672
   username: guest
   password: guest
+
 
 # Profile for kafka (activated when using the 'kafka' profile)
 ---
